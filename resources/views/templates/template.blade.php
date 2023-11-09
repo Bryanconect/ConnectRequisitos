@@ -51,7 +51,7 @@
         <ul class="list-unstyled small">
           <li class="mb-2">Em busca de solução?</li>
           <li class="mb-2">Aqui tem a documentação!</li>
-          <li class="mb-2">Código de Licença <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE" target="_blank" rel="license noopener">MIT</a></li>
+          <li class="mb-2">Código de Licença <a href="https://github.com/Bryanconect/ConnectRequisitos" target="_blank" rel="license noopener">MIT</a></li>
           <li class="mb-2">Versão: v1.0</li>
         </ul>
       </div>
