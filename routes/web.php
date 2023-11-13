@@ -42,6 +42,7 @@ Route::get('/inicio', 'App\Http\Controllers\RequisitoController@indexinicio');
 Route::get('/gestaousuario', 'App\Http\Controllers\RequisitoController@indexgestaousuario')->middleware('auth');
 Route::get('/requisitos/gestaousuario/autorizar/{user}', 'App\Http\Controllers\RequisitoController@autorizarusuario')->middleware('auth');
 Route::get('/requisitos/gestaousuario/cancelar/{user}', 'App\Http\Controllers\RequisitoController@cancelarusuario')->middleware('auth');
+Route::get('/requisitos/gestaousuario/tornaradm/{user}', 'App\Http\Controllers\RequisitoController@tornaradm')->middleware('auth');
 
 
 //Gestão Programa
