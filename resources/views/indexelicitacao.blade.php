@@ -29,6 +29,17 @@ $userelicitacao = auth()->user()->id;
         </a>
 </div>
 
+@if(session('mensagem'))
+<div class="text-center mt-3 mb-4 alert alert-success">
+        <p>{{session('mensagem')}}</p>
+    </div>
+@endif  
+@if(session('falha'))
+<div class="text-center mt-3 mb-4 alert alert-danger">
+        <p>{{session('falha')}}</p>
+    </div>
+@endif  
+
 <h1 class="text-center">Gerenciar Elicitações</h1>
 
 <div class="col-8 m-auto"> 
@@ -37,7 +48,6 @@ $userelicitacao = auth()->user()->id;
 
   <thead class="table-dark">
   <tr>
-      <th scope="col">Código</th>
       <th scope="col">Titulo</th>
       <th scope="col">Setor Envolvido</th>
       <th scope="col">Data Reunião</th>
@@ -53,7 +63,6 @@ $userelicitacao = auth()->user()->id;
 
   @if ($userelicitacao == $elicitacao->id_user)
   
-      <th scope="row">{{$elicitacao->id}}</th>
       <td>{{$elicitacao->titulo}}</td>
       <td>{{$elicitacao->setor_envolvido}}</td>
       <td>{{$elicitacao->data_reuniao}}</td>
