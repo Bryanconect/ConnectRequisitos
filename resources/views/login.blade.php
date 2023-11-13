@@ -74,7 +74,11 @@ Login Efetuado com sucesso! Usuário: {{ auth()->user()->name }}
 </div>
 </div>
 
-
+@if(session('mensagem'))
+<div class="text-center mt-3 mb-4 alert alert-success">
+        <p>{{session('mensagem')}}</p>
+    </div>
+@endif 
 
 <form class ="p-4 p-md-5 border bg-secondary"  action="{{ route('login.store') }}" method="post">
 <h1 class="text-center">Login</h1>
@@ -94,7 +98,7 @@ Login Efetuado com sucesso! Usuário: {{ auth()->user()->name }}
   <span>{{ $message }}</span>
   @enderror
   @error('error')
-<span>{{ $message }}</span>
+<span>{{ $message }}</span> 
 @enderror 
   </div>
   <br>
