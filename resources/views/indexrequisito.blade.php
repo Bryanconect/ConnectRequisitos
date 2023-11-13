@@ -31,6 +31,13 @@ $uservalidation = auth()->user()->tipo;
         </a>
 </div>
 
+@if(session('mensagem'))
+<div class="text-center mt-3 mb-4 alert alert-success">
+        <p>{{session('mensagem')}}</p>
+    </div>
+@endif 
+
+
 <h1 class="text-center">Gerenciar Requisitos</h1>
 
 <div class="col-8 m-auto"> 
@@ -39,8 +46,7 @@ $uservalidation = auth()->user()->tipo;
 
   <thead class="table-dark">
   <tr>
-      <th scope="col">Código</th>
-      <th scope="col">Requisito</th>
+      <th scope="col">Requisito / Programa</th>
       <th scope="col">Ação</th>
     </tr>
   </thead>
@@ -51,7 +57,6 @@ $uservalidation = auth()->user()->tipo;
 
   @if ($requisitos->ativo == 'S')
   <tr>
-      <th scope="row">{{$requisitos->id}}</th>
       <td>{{$requisitos->programa}}</td>
       <td>
         <a href="{{url("requisitos/criarhistoria/$requisitos->id")}}">
