@@ -63,14 +63,14 @@ class LoginController extends Controller
             return redirect()->route('login.index')->withErrors(['error' => 'Senha invalida.']);
           }
         }
-      
+       
       
         public function destroy()
         {
           Auth::logout();
       
           return redirect()->route('login.index');
-        }
+        } 
 
 
         public function storeusuario(Request $request)
@@ -89,7 +89,10 @@ class LoginController extends Controller
         'autorizado' => 'N',
     ]);
     if($cad){
-        return redirect ('/login');
+        return redirect ('/login')
+        ->with('mensagem', 'Solicitação de acesso realizada, aguarde o contato do ADM.'); 
+
+
     }
 
             }
