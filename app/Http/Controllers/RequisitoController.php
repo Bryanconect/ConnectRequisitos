@@ -110,7 +110,8 @@ use Illuminate\Http\Request;
             'ativo' => 'S',
         ]);
         if($cad){
-            return redirect ('requisitos/inicio');
+            return redirect ('requisitos/inicio')
+            ->with('mensagem', 'Requisito cadastrado com sucesso!');
         }
     }
 
@@ -126,9 +127,10 @@ use Illuminate\Http\Request;
             'id_user' => $request->id_user,
         ]);
         if($cad){
-            return redirect ('elicitacao/inicio');
+            return redirect ('elicitacao/inicio')
+            ->with('mensagem', 'Elicitação cadastrada com sucesso!');
         }
-    } 
+    }  
 
     public function storeHistoria(HistoriaRequest $request)
     {
@@ -143,7 +145,8 @@ use Illuminate\Http\Request;
             'especificacao' => $request->especificacao,
         ]);
         if($cad){
-            return redirect ('requisitos/inicio');
+            return redirect ('requisitos/inicio')
+            ->with('mensagem', 'História cadastrada com sucesso!');
         }
     } 
 
@@ -186,8 +189,9 @@ use Illuminate\Http\Request;
 
         ]);
         if($cad){
-            return redirect ('elicitacao/inicio');
-        }
+            return redirect ('elicitacao/inicio')
+            ->with('mensagem', 'Elicitação alterada com sucesso!');
+        } 
     }
 
     public function updatehistoria(HistoriaRequest $request, string $id)
@@ -206,7 +210,8 @@ use Illuminate\Http\Request;
 
         ]);
         if($cad){
-            return redirect ('requisitos/inicio');
+            return redirect ('requisitos/inicio')
+            ->with('mensagem', 'História alterada com sucesso!');
         }
     }
 
@@ -219,7 +224,8 @@ use Illuminate\Http\Request;
 
         ]);
         if($cad){
-            return redirect ('requisitos/inicio');
+            return redirect ('requisitos/inicio')
+            ->with('mensagem', 'História homologada com sucesso!');
         }
     }
 
@@ -232,18 +238,36 @@ use Illuminate\Http\Request;
 
         ]);
         if($cad){
-            return redirect ('requisitos/inicio');
+            return redirect ('requisitos/inicio')
+            ->with('mensagem', 'História cancelada com sucesso!');
         }
     }
 
 
     public function excluirelicitacao(string $id)
     {
-        $del= $this->objElicitacao->destroy($id);
-        if($del == true){
-       return redirect ('elicitacao/inicio');
+        $elicitacao_historia = ModelHistoria::select('id_elicitacao')->where('id_elicitacao', $id)->get();
+        $retorno = '';
 
-    }
+        foreach ($elicitacao_historia as $elicitacao_historia){
+            $retorno = $elicitacao_historia->id_elicitacao;
+
+        }
+        
+       if ($retorno == $id) {
+            return redirect ('elicitacao/inicio')
+            ->with('falha', 'Elicitação associada a história, não é possível deletar!');
+        } 
+
+         
+        if ($retorno == ''){
+            $del= $this->objElicitacao->destroy($id);
+            if($del == true){
+           return redirect ('elicitacao/inicio')
+           ->with('mensagem', 'Elicitação excluida com sucesso!');
+        }
+       
+    } 
 }
 
 
@@ -253,9 +277,23 @@ public function autorizarusuario(string $id)
         'autorizado' => 'S',
     ]);
     if($cad){
-        return redirect ('gestaousuario');
-    }
+        return redirect('gestaousuario')
+        ->with('mensagem', 'Usuário autorizado com sucesso!');
+    } 
 }
+
+
+public function tornaradm(string $id)
+{
+    $cad=$this->objUser->where(['id'=>$id])->update([
+        'tipo' => '1',
+    ]);
+    if($cad){
+        return redirect('gestaousuario')
+        ->with('mensagem', 'Usuário se tornou ADM com sucesso!');
+    } 
+}
+
 
 public function cancelarusuario(string $id)
 {
@@ -263,7 +301,8 @@ public function cancelarusuario(string $id)
         'autorizado' => 'N',
     ]);
     if($cad){
-        return redirect ('gestaousuario');
+        return redirect('gestaousuario')
+        ->with('mensagem', 'Usuário cancelado com sucesso!');
     }
 }
 
@@ -275,7 +314,8 @@ public function ativarrequisito(string $id)
         'ativo' => 'S',
     ]);
     if($cad){
-        return redirect ('gestaorequisito');
+        return redirect ('gestaorequisito')
+        ->with('mensagem', 'Requisito ativo com sucesso!'); 
     }
 }
 
@@ -285,9 +325,10 @@ public function inativarusuario(string $id)
         'ativo' => 'N',
     ]);
     if($cad){
-        return redirect ('gestaorequisito');
+        return redirect ('gestaorequisito')
+        ->with('mensagem', 'Requisito inativo com sucesso!'); 
     }
-}
+} 
 
 public function geraPdf(string $id){
 
@@ -296,7 +337,7 @@ public function geraPdf(string $id){
     return $pdf->stream('versaohistoria.pdf');
 
 } 
-
+ 
 public function tipogeracao(Request $request){
     if($request->filtro == '1'){
         $historias = ModelHistoria::select('id', 'id_user', 'id_requisito', 'id_elicitacao', 'necessidade', 'solucao', 'cenario_teste', 'especificacao', 'status')->where('id_requisito', $request->id_requisito)->where('status', 'Concluida')->whereBetween('data_homologacao', [$request->data_inicial, $request->data_final])->get();
