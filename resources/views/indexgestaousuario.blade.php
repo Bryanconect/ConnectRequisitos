@@ -15,6 +15,12 @@ $userelicitacao = auth()->user()->id;
         </a>
 </div>
 
+@if(session('mensagem'))
+<div class="text-center mt-3 mb-4 alert alert-success">
+        <p>{{session('mensagem')}}</p>
+    </div>
+@endif 
+
 <h1 class="text-center">Gerenciar Usuários</h1>
 
 <div class="col-8 m-auto"> 
@@ -27,6 +33,7 @@ $userelicitacao = auth()->user()->id;
       <th scope="col">Nome</th>
       <th scope="col">Usuário</th>
       <th scope="col">Autorizado</th>
+      <th scope="col">Tipo</th>
       <th scope="col">Ação</th>
     </tr>
   </thead>
@@ -40,9 +47,13 @@ $userelicitacao = auth()->user()->id;
       <td>{{$user->name}}</td>
       <td>{{$user->email}}</td>
       <td>@if($user->autorizado == 'S')Sim @else Não @endif</td>
+      <td>@if($user->tipo == 1)Gestor @else Analista @endif</td>
       <td>
         <a href="{{url("requisitos/gestaousuario/autorizar/$user->id")}}">
           <button class="btn btn-success"> Autorizar </button>
+        </a>
+        <a href="{{url("requisitos/gestaousuario/tornaradm/$user->id")}}">
+          <button class="btn btn-primary"> Tornar ADM </button>
         </a>
         <a href="{{url("requisitos/gestaousuario/cancelar/$user->id")}}">
           <button class="btn btn-danger"> Cancelar </button>
